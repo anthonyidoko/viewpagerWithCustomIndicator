@@ -23,8 +23,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private val TAG = "MainActivity"
     private lateinit var layout: LinearLayout
-
-    var shouldShowIndicator = false
+    var count = 0
+    var count2 = 0
+    var overallcount = 0
+    var ShowIndicatorForFirstTimeOnly = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +43,29 @@ class MainActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 addCardIndicators(this@MainActivity,layout,adapter.items.size,position)
-                layout.removeAllViews()
 
-//                if (!shouldShowIndicator) {
-//                    populateCardIndicators(this@MainActivity, layout, adapter.items.size, position)
-//                    shouldShowIndicator = true
-//                } else {
-//                    addCardIndicators2(this@MainActivity, layout, adapter.items.size, position)
-//                }
+                if (ShowIndicatorForFirstTimeOnly) {
+//                    count++
+//                    Log.d(TAG, "onPageSelected: firstCount = $count")
+                    populateCardIndicators(this@MainActivity, layout, adapter.items.size, position)
+                    ShowIndicatorForFirstTimeOnly = false
+                } else {
+//                    count2++
+//                    Log.d(TAG, "onPageSelected: secondCount = $count2")
+                    addCardIndicators2(this@MainActivity, layout, adapter.items.size, position)
+                }
+//                overallcount++
+//                Log.d(TAG, "onPageSelected: overallCount = $overallcount")
+                /**
+                 * the count stuff i commented is to debug how many times it runs for the first time @firstcount
+                 * and also track the count increment when i swap @secondCount
+                 * and overall count also
+                 * this saves me the stress of debugging
+                 *
+                 * */
             }
         })
-
-//        addCardIndicators(this@MainActivity,layout,adapter.items.size,0)
-
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        populateCardIndicators(this@MainActivity, layout, 4, 0)
-//    }
-
 
     fun addCardIndicators(
         activity: Activity,
